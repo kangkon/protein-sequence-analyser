@@ -1,0 +1,6 @@
+/* Extract sequence by their id from FASTA file (in one line)*/
+
+perl -ne 'if(/^>(\S+)/){$c=grep{/^$1$/}qw(id1 id2)}print if $c' fasta.file
+
+/* Extract from large number of sequences with sequence identifiers in separate file */
+perl -ne 'if(/^>(\S+)/){$c=$i{$1}}$c?print:chomp;$i{$_}=1 if @ARGV' ids.file fasta.file
