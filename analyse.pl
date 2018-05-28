@@ -115,4 +115,6 @@ if ($file_format == 2) {
 } else {
   print $fh $report;
 }
+close $fh;
+
 print $report;
