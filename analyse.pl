@@ -76,7 +76,7 @@ foreach my $amino_acid (keys %amino_acid_dict) {
   my $content = $count{$amino_acid} * 100/$sequence_length;
   printf "  %s \t\t %s \t %d \t\t %.2f \n", $amino_acid_dict{$amino_acid}, $amino_acid, $count{$amino_acid}, $content;
 }
-print "-------------------------------------------------------------------------- \n";
-my $essentiam_percent = ($count{'H'} + $count{'I'} + $count{'L'} + $count{'K'} + $count{'F'} + $count{'M'} + $count{'T'} + $count{'W'} + $count{'V'}) * 100 / $sequence_length;
-printf "  Essential Amino acid Percentage: %.2f\n", $essentiam_percent;
-print "-------------------------------------------------------------------------- \n";
+print "------------------------------------------------------------------------- \n";
+my $essential_am = $count{'H'} + $count{'I'} + $count{'L'} + $count{'K'} + $count{'F'} + $count{'M'} + $count{'T'} + $count{'W'} + $count{'V'};
+printf "  Essential Amino Acids : %d (%.2f percent)\n", $essential_am, $essential_am * 100 / $sequence_length;
+print "------------------------------------------------------------------------- \n";
