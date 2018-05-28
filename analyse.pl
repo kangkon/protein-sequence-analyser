@@ -61,22 +61,58 @@ my %count;
 foreach my $amino_acid (keys %amino_acid_dict) {
   $count{$amino_acid} = () = $sequence =~ /$amino_acid/g;
 }
+my $essential_am = $count{'H'} + $count{'I'} + $count{'L'} + $count{'K'} + $count{'F'} + $count{'M'} + $count{'T'} + $count{'W'} + $count{'V'};
+
+# Manage Output
+my $file_format = 0;
+while ($file_format < 1 || $file_format > 2) {
+  print " Print output as: \n\t [1] TXT\n\t [2] CSV\n Enter your choice here: ";
+  $file_format = <>;
+  $file_format = int($file_format);
+}
+my $output_filename = "report";
+
+if ($file_format == 2) {
+  $output_filename .= '.csv';
+}else {
+  $output_filename .= '.txt';
+}
+print "Enter Output File Name [default $output_filename]: ";
+my $output_filename_input = <>;
+chomp $output_filename_input;
+if ($output_filename_input ne '') {
+  $output_filename = $output_filename_input;
+}
+my $csv_report = '',
+my $report = '';
 
 # Print Output
-print "========================================================================= \n";
-print " Protein Sequence Analysis Report \n";
-print "========================================================================= \n";
-print "     Filename: $filename\n";
-print "     Info: $seq_info \n";
-print "     Sequence Length: $sequence_length Amino Acids \n\n";
-print "------------------------------------------------------------------------- \n";
-print " Amino Acid \t Abbr \t Occurance \t Content (%) \n";
-print "------------------------------------------------------------------------- \n\n";
+$report .= "========================================================================= \n";
+$report .= " Protein Sequence Analysis Report \n";
+$report .= "========================================================================= \n";
+$report .= "     Filename: $filename\n";
+$report .= "     Info: $seq_info \n";
+$report .= "     Sequence Length: $sequence_length Amino Acids \n\n";
+$report .= "------------------------------------------------------------------------- \n";
+$report .= " Amino Acid \t Abbr \t Occurance \t Content (%) \n";
+$report .= "------------------------------------------------------------------------- \n\n";
 foreach my $amino_acid (keys %amino_acid_dict) {
   my $content = $count{$amino_acid} * 100/$sequence_length;
-  printf "  %s \t\t %s \t %d \t\t %.2f \n", $amino_acid_dict{$amino_acid}, $amino_acid, $count{$amino_acid}, $content;
+  $report .= sprintf("  %s \t\t %s \t %d \t\t %.2f \n", $amino_acid_dict{$amino_acid}, $amino_acid, $count{$amino_acid}, $content);
+  $csv_report .= "$amino_acid_dict{$amino_acid}, $amino_acid, $count{$amino_acid},".sprintf("%.2f", $content)."\n";
 }
-print "------------------------------------------------------------------------- \n";
-my $essential_am = $count{'H'} + $count{'I'} + $count{'L'} + $count{'K'} + $count{'F'} + $count{'M'} + $count{'T'} + $count{'W'} + $count{'V'};
-printf "  Essential Amino Acids : %d (%.2f percent)\n", $essential_am, $essential_am * 100 / $sequence_length;
-print "------------------------------------------------------------------------- \n";
+$report .= "------------------------------------------------------------------------- \n";
+$report .= sprintf("  Essential Amino Acids : %d (%.2f percent)\n", $essential_am, $essential_am * 100 / $sequence_length);
+$report .= "------------------------------------------------------------------------- \n";
+
+open($fh, '>', $output_filename) or die "Could not write file '$output_filename' $!";
+if ($file_format == 2) {
+  print $fh "Protein Sequence Analysis Report\n";
+  print $fh "Filename: $filename\nInfo: $seq_info\nSequence Length: $sequence_length Amino Acids\n";
+  print $fh "Amino Acid,Abbr,Occurance,Content (%)\n";
+  print $fh $csv_report;
+  print $fh "Essential Amino Acids, $essential_am, ".sprintf("(%.2f ", $essential_am * 100 / $sequence_length)." %)";
+} else {
+  print $fh $report;
+}
+print $report;
