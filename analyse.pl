@@ -56,6 +56,7 @@ my %amino_acid_dict = (
 
 );
 
+# Store the counted amino acids in the sequence
 my %count;
 
 foreach my $amino_acid (keys %amino_acid_dict) {
@@ -83,6 +84,11 @@ chomp $output_filename_input;
 if ($output_filename_input ne '') {
   $output_filename = $output_filename_input;
 }
+
+# Missing amino acids
+my $missing_aa_count = 0;
+my $missing_aa = '';
+
 my $csv_report = '',
 my $report = '';
 
@@ -100,9 +106,21 @@ foreach my $amino_acid (keys %amino_acid_dict) {
   my $content = $count{$amino_acid} * 100/$sequence_length;
   $report .= sprintf("  %s \t\t %s \t %d \t\t %.2f \n", $amino_acid_dict{$amino_acid}, $amino_acid, $count{$amino_acid}, $content);
   $csv_report .= "$amino_acid_dict{$amino_acid}, $amino_acid, $count{$amino_acid},".sprintf("%.2f", $content)."\n";
+  if ($count{$amino_acid} == 0) {
+    $missing_aa_count += 1;
+    $missing_aa .= "$amino_acid_dict{$amino_acid}, ";
+  }
 }
 $report .= "------------------------------------------------------------------------- \n";
 $report .= sprintf("  Essential Amino Acids : %d (%.2f percent)\n", $essential_am, $essential_am * 100 / $sequence_length);
+
+if ($missing_aa_count > 0){
+    # Remove last white space and comma
+    chop($missing_aa);
+    chop($missing_aa);
+    $report .= sprintf("  Missing Amino Acids [%d]: %s\n", $missing_aa_count, $missing_aa);
+}
+
 $report .= "------------------------------------------------------------------------- \n";
 
 open($fh, '>', $output_filename) or die "Could not write file '$output_filename' $!";
@@ -111,7 +129,10 @@ if ($file_format == 2) {
   print $fh "Filename: $filename\nInfo: $seq_info\nSequence Length: $sequence_length Amino Acids\n";
   print $fh "Amino Acid,Abbr,Occurance,Content (%)\n";
   print $fh $csv_report;
-  print $fh "Essential Amino Acids, $essential_am, ".sprintf("(%.2f ", $essential_am * 100 / $sequence_length)." %)";
+  print $fh "Essential Amino Acids, $essential_am, ".sprintf("(%.2f ", $essential_am * 100 / $sequence_length)." %)\n";
+  if ($missing_aa_count > 0){
+      print $fh "Missing Amino Acids,$missing_aa_count,$missing_aa";
+  }
 } else {
   print $fh $report;
 }
