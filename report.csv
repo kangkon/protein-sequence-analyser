@@ -3,24 +3,25 @@ Filename: sequence.fasta
 Info: CAA44827.1 alpha-coixin [Coix lacryma-jobi]
 Sequence Length: 266 Amino Acids
 Amino Acid,Abbr,Occurance,Content (%)
-Ser, S, 17,6.39
-His, H, 2,0.75
-Lys, K, 1,0.38
-Gly, G, 4,1.50
-Tyr, Y, 8,3.01
-Pro, P, 19,7.14
-Asp, D, 0,0.00
-Gln, Q, 56,21.05
-Val, V, 17,6.39
-Thr, T, 9,3.38
-Phe, F, 10,3.76
-Arg, R, 4,1.50
-Cys, C, 1,0.38
-Met, M, 3,1.13
-Trp, W, 1,0.38
 Glu, E, 2,0.75
-Leu, L, 43,16.17
-Asn, N, 14,5.26
-Ala, A, 43,16.17
 Ile, I, 12,4.51
+Asn, N, 14,5.26
+Cys, C, 1,0.38
+Leu, L, 43,16.17
+Val, V, 17,6.39
+Tyr, Y, 8,3.01
+Arg, R, 4,1.50
+Gly, G, 4,1.50
+Ser, S, 17,6.39
+Pro, P, 19,7.14
+Gln, Q, 56,21.05
+Asp, D, 0,0.00
+Trp, W, 1,0.38
+Met, M, 3,1.13
+Thr, T, 9,3.38
+Lys, K, 1,0.38
+Ala, A, 43,16.17
+Phe, F, 10,3.76
+His, H, 2,0.75
 Essential Amino Acids, 98, (36.84  %)
+Missing Amino Acids,1,Asp
