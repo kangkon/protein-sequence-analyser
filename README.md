@@ -1,5 +1,5 @@
 # Protein Sequence Analyser
-Analyse Primary Structure (Amino Acid Sequences) of Protein
+Perl program for analysis of Primary Structure (Amino Acid Sequences) of Protein
 
 ### Dependencies
 Perl version> 5.16
