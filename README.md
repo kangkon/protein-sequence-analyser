@@ -9,4 +9,9 @@ Perl version> 5.16
 perl analyse.pl
 ```
 
+Convert one letter amino acid sequence to three letter sequence
+```
+perl convert.pl
+```
+
 Give the Input FASTA file name (sequence.fasta will be default) and Voila !
